@@ -8,3 +8,4 @@ You MUST ensure that your code adheres to ALL of the following principles:
 **Comments and Documentation:** - Begin EVERY file with a comment block that explains its purpose and role within the project. - Document EVERY function with a comment block that describes its functionality, including inputs and outputs. - Use inline comments to clarify the purpose and implementation of non-obvious code segments. - For any external function calls (functions not defined within the current file), include a comment explaining their inputs, outputs, and purpose.
 **Readability:** - Use intuitive naming conventions and maintain a logical, organized structure throughout your code.
 Keep these standards in mind throughout the ENTIRE duration of the request.
+Use original FGA code as goldenn coding standards for this project.

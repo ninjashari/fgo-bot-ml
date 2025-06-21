@@ -143,4 +143,19 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.gif)
 
+    // Dagger
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
+    // Room database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
+    // JSON parsing
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // UI
+    implementation(libs.material)
+    implementation(compose.ui)
 }

@@ -5,3 +5,4 @@ include(":app")
 
 rootProject.name="Fate Grand Automata"
 
+include(":ml")
