@@ -140,3 +140,18 @@ dmypy.json
 
 # Dataset
 dataset/
+
+#Images
+*.jpg
+*.png
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+
+*.json
+*.pth
+
+training_output*/
