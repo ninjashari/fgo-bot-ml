@@ -6,41 +6,45 @@ This document outlines the methods and procedures for acquiring the necessary da
 
 The goal is to build a comprehensive image dataset of every Servant and Craft Essence in the game. This dataset needs to be diverse to ensure the model is robust to in-game variations.
 
-### Methods of Acquisition
+### Current Implementation: Atlas Academy API
 
-1.  **Automated In-Game Screenshotting (Primary Method):**
-    *   **Concept:** Develop a dedicated script using the existing `libautomata` framework to systematically navigate through the game and capture screenshots of all Servants and CEs.
-    *   **Execution Plan:**
-        *   The script will navigate to `My Room -> Spirit Origin List`.
-        *   It will iterate through every Servant and CE entry.
-        *   For each entry, it will open the details page and capture images of all ascension/costume art.
-        *   The script will also navigate to the Party Setup screen to capture smaller "portrait" style images.
-        *   Captured images will be saved locally with a systematic naming convention (e.g., `servant_id_ascension_1.png`).
+**Primary Data Source:** [Atlas Academy DB API](https://api.atlasacademy.io/)
 
-2.  **Web Scraping from Community Databases (Supplementary Method):**
-    *   **Concept:** Augment our dataset by downloading images from reputable FGO community resources.
-    *   **Target Sources:**
-        *   [Atlas Academy DB](https://atlasacademy.io/db/)
-        *   [FGO GamePress Wiki](https://gamepress.gg/grandorder/)
-        *   [Fate/Grand Order Wiki](https://fategrandorder.fandom.com/wiki/Fate/Grand_Order_Wikia)
-    *   **Execution Plan:**
-        *   Write a Python script using libraries like `BeautifulSoup` and `Requests`.
-        *   The script will scrape the websites for high-quality servant and CE card art.
-        *   This method is particularly useful for obtaining clean, high-resolution base images.
+Our implementation uses the Atlas Academy's comprehensive public JSON API as the sole data source for image collection. This approach provides:
 
-3.  **Manual Data Collection:**
-    *   **Concept:** Manually take screenshots of specific in-game situations that are difficult to automate.
-    *   **Use Cases:**
-        *   Capturing images of new Servants/CEs immediately after release.
-        *   Getting images of specific battle UI elements, buffs, or enemy sprites that may not be available in databases.
+- **Reliability:** Stable, well-maintained API with consistent data structure
+- **Completeness:** Comprehensive coverage of all Servants and Craft Essences
+- **Quality:** High-resolution official game assets
+- **Maintainability:** No web scraping complexity or SSL certificate issues
 
-4.  **Data Augmentation:**
-    *   **Concept:** Programmatically increase the size and variance of our dataset.
-    *   **Techniques:**
-        *   **Geometric Transformations:** Random rotation, scaling, and cropping.
-        *   **Color and Lighting Adjustments:** Varying brightness, contrast, and saturation.
-        *   **Noise Injection:** Adding random noise to simulate different screen conditions.
-    *   **Execution:** A script will be created to apply these augmentations to the collected images, creating a larger and more robust training set.
+### Implementation Details
+
+**Servants Dataset (`dataset/servants/`)**
+- **Source:** Atlas Academy API endpoints for servant data
+- **Coverage:** All servants with complete ascension and costume artwork
+- **Structure:** Individual directories per servant containing:
+  - `metadata.json`: Complete servant data from API
+  - Multiple image files: ascension art, costume variants, icons
+- **Current Status:** ~1GB of data successfully collected
+
+**Craft Essences Dataset (`dataset/ces/`)**
+- **Source:** Atlas Academy API endpoints for CE data  
+- **Coverage:** All craft essences with official artwork
+- **Structure:** Individual directories per CE containing:
+  - `metadata.json`: Complete CE data from API
+  - Image files: card art, face images, icons in various sizes
+- **Current Status:** ~1.3GB of data successfully collected
+
+### Scripts and Tools
+
+1. **`download_servant_images.py`** - Downloads servant data from Atlas Academy
+2. **`download_ce_images.py`** - Downloads craft essence data from Atlas Academy
+
+Both scripts include:
+- Comprehensive error handling and logging
+- Respectful rate limiting to avoid API abuse
+- Structured metadata storage for ML pipeline integration
+- Progress tracking with detailed status reporting
 
 ## 2. Reinforcement Learning Model Data (Gameplay Sequences)
 
@@ -68,4 +72,12 @@ The goal is to collect a large set of state-action-reward sequences from actual 
 
 ---
 
-This dual approach of automated and manual, bot and human data collection will provide a rich and diverse dataset, forming a strong foundation for our ML models. 
+## Current Dataset Summary
+
+**Total Images Collected:** ~11,265 images  
+**Total Dataset Size:** ~2.3GB  
+**Coverage:** Complete Atlas Academy servant and CE collections  
+**Quality:** High-resolution official game assets  
+**Structure:** ML-ready with comprehensive metadata  
+
+This streamlined approach using Atlas Academy as our sole data source provides a robust foundation for computer vision model training while maintaining code simplicity and reliability. 
